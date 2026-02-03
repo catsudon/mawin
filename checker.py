@@ -114,10 +114,4 @@ def check_all_products():
         driver.quit()
 
 if __name__ == "__main__":
-    # Run 5 times with a 2-minute gap within one 11-minute GitHub cycle
-    for i in range(5):
-        print(f"--- Sub-run {i+1} of 5 ---")
-        check_all_products()
-        if i < 4:  # Don't sleep after the last run
-            print("Sleeping for 120 seconds...")
-            time.sleep(120)
+    check_all_products()
