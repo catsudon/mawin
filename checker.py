@@ -16,8 +16,9 @@ load_dotenv()
 # --- CONFIGURATION ---
 PRODUCTS = {
     "CC02": "https://www.toylaxy.com/en/product/1227227/product-1227227?category_id=125777",
-    "SL02": "https://www.toylaxy.com/en/product/1273208/product-1273208?category_id=137697",
-    "BT09": "https://www.toylaxy.com/en/product/1246962/product-1246962?category_id=137697"
+    # "SL02": "https://www.toylaxy.com/en/product/1273208/product-1273208?category_id=137697",
+    "BT09": "https://www.toylaxy.com/en/product/1246962/product-1246962?category_id=137697",
+    "BT08": "https://www.toylaxy.com/en/product/1227221/product-1227221?category_id=125777"
 }
 
 STATE_FILE = "state.csv"
@@ -82,7 +83,7 @@ def check_all_products():
         for name, url in PRODUCTS.items():
             print(f"Checking {name}...")
             driver.get(url)
-            time.sleep(7) 
+            time.sleep(5) 
             
             buttons = driver.find_elements(By.CLASS_NAME, "btn-block")
             if buttons:
