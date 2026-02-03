@@ -38,7 +38,7 @@ jobs:
       - name: Run Monitor Script
         env:
           LINE_ACCESS_TOKEN: ${{ secrets.LINE_ACCESS_TOKEN }}
-          # Make sure the secret name in GitHub matches what you use here
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
           LINE_GROUP_ID: ${{ secrets.LINE_GROUP_ID }} 
         run: python checker.py
 
