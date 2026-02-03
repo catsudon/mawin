@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 load_dotenv()
 
@@ -112,4 +113,10 @@ def check_all_products():
         driver.quit()
 
 if __name__ == "__main__":
-    check_all_products()
+    # Run 5 times with a 2-minute gap within one 11-minute GitHub cycle
+    for i in range(5):
+        print(f"--- Sub-run {i+1} of 5 ---")
+        check_all_products()
+        if i < 4:  # Don't sleep after the last run
+            print("Sleeping for 120 seconds...")
+            time.sleep(120)
