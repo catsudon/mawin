@@ -1,19 +1,30 @@
 name: Toylaxy Stock Checker
 
 on:
+  push:
+    branches:
+      - main
+    # Only run on push if these specific files change (optional but recommended)
+    paths:
+      - 'checker.py'
+      - '.github/workflows/**'
   schedule:
     - cron: '*/10 * * * *'
   workflow_dispatch:
 
 jobs:
   check-stock:
+    # This prevents the bot's own commits from triggering a new run
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Explicitly allow writing to the repo
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,7 +38,8 @@ jobs:
       - name: Run Monitor Script
         env:
           LINE_ACCESS_TOKEN: ${{ secrets.LINE_ACCESS_TOKEN }}
-          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          # Make sure the secret name in GitHub matches what you use here
+          LINE_GROUP_ID: ${{ secrets.LINE_GROUP_ID }} 
         run: python checker.py
 
       - name: Commit state changes
@@ -35,5 +47,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add state.csv
-          # Only commit if the file actually changed to avoid errors
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update notification state [skip ci]" && git push)
