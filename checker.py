@@ -24,6 +24,7 @@ NOTIFICATION_COOLDOWN_MINUTES = 60
 
 LINE_ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
 LINE_USER_ID = os.getenv("LINE_USER_ID")
+LINE_GROUP_ID = os.getenv("LINE_GROUP_ID")
 HEADLESS = os.getenv("GITHUB_ACTIONS") == "true" or True 
 
 def load_state():
@@ -43,13 +44,25 @@ def save_state(state):
             writer.writerow([name, ts])
 
 def send_line_message(message):
-    if not LINE_ACCESS_TOKEN or not LINE_USER_ID:
-        print("LINE credentials missing.")
+    if not LINE_ACCESS_TOKEN or not LINE_GROUP_ID:
+        print("Missing LINE Credentials (Token or Group ID)")
         return
+
     url = "https://api.line.me/v2/bot/message/push"
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"}
-    payload = {"to": LINE_USER_ID, "messages": [{"type": "text", "text": message}]}
-    requests.post(url, headers=headers, json=payload)
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
+    }
+    payload = {
+        "to": LINE_GROUP_ID, 
+        "messages": [{"type": "text", "text": message}]
+    }
+    
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        print(f"Notification pushed to Group: {LINE_GROUP_ID[:10]}...")
+    else:
+        print(f"Failed to push message: {response.text}")
 
 def get_driver(headless=True):
     options = Options()
