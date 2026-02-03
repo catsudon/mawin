@@ -56,8 +56,8 @@ def send_line_message(message):
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}"
     }
     payload = {
-        # "to": LINE_GROUP_ID, 
-        "to": LINE_USER_ID, 
+        "to": LINE_GROUP_ID, 
+        # "to": LINE_USER_ID, 
         "messages": [{"type": "text", "text": message}]
     }
     
