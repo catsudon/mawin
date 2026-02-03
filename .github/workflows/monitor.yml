@@ -17,7 +17,6 @@ jobs:
     # This prevents the bot's own commits from triggering a new run
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
-    environment: line
     permissions:
       contents: write
 
