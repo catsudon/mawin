@@ -22,7 +22,7 @@ PRODUCTS = {
 }
 
 STATE_FILE = "state.csv"
-NOTIFICATION_COOLDOWN_MINUTES = 60
+NOTIFICATION_COOLDOWN_MINUTES = 60*5 # 5 hours cooldown between notifications for the same product
 
 LINE_ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
 LINE_USER_ID = os.getenv("LINE_USER_ID")
